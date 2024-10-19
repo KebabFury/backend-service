@@ -12,27 +12,40 @@ public class BotCommandService : BaseService<BotCommand>, IBotCommandService
     private readonly BotCommandRepository _botCommandRepository;
     private readonly BotRepository _botRepository;
     private readonly IMapper _mapper;
+    private readonly ILogger<BotCommandService> _logger;
     
     public BotCommandService(
         BotCommandRepository botCommandRepository,
         BotRepository botRepository,
-        IMapper mapper) : base(botCommandRepository)
+        IMapper mapper,
+        ILogger<BotCommandService> logger) : base(botCommandRepository)
     {
         _botCommandRepository = botCommandRepository;
         _botRepository = botRepository;
         _mapper = mapper;
+        _logger = logger;
     }
 
     public async Task AddCommandsAsync(Guid botId, List<BotCommandDto> commands)
     {
-        if (!(await _botRepository.DoesExist(botId)))
+        try
         {
-            throw new EntityNotFoundException(botId, typeof(Bot));
+            if (!(await _botRepository.DoesExist(botId)))
+            {
+                throw new EntityNotFoundException(botId, typeof(Bot));
+            }
+
+            foreach (var command in commands)
+            {
+                await AddCommandAsync(botId, command);
+            }
         }
-        foreach (var command in commands)
+        catch (Exception ex)
         {
-            await AddCommandAsync(botId, command);
+            _logger.LogError(ex.Message, ex);
+            throw ex;
         }
+        
     }
 
     private async Task AddCommandAsync(Guid botId, BotCommandDto command)

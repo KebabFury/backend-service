@@ -1,6 +1,8 @@
+using System.Reflection;
 using KebabFury.Innopolice.WebApi.Application.Services;
 using KebabFury.Innopolice.WebApi.Application.Settings;
 using KebabFury.Innopolice.WebApi.Infrastructure;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,15 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureAllSettings(builder.Configuration);
 builder.Services.ConfigureRepositories();
 builder.Services.ConfigureAllServices();
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.File(
+        Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs/log-.txt"),
+        rollingInterval: RollingInterval.Day)
+    .WriteTo.Console()
+    .CreateLogger();
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 

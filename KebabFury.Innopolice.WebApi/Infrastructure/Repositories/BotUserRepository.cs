@@ -5,7 +5,7 @@ namespace KebabFury.Innopolice.WebApi.Infrastructure.Repositories;
 
 public class BotUserRepository : BaseRepository<BotUser>
 {
-    protected BotUserRepository(DataContext context) : base(context, "botUsers")
+    public BotUserRepository(DataContext context) : base(context, "botUsers")
     {
     }
 }

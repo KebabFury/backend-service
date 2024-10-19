@@ -9,7 +9,8 @@ public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity
 {
     private IBaseRepository<TEntity> _repository;
     
-    protected BaseService(IBaseRepository<TEntity> baseRepository)
+    protected BaseService(
+        IBaseRepository<TEntity> baseRepository)
     {
         _repository = baseRepository;
     }
