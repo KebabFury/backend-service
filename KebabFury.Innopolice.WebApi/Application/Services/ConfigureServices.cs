@@ -9,5 +9,6 @@ public static class ConfigureServices
         services.AddScoped<IBotService, BotService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IBotCommandService, BotCommandService>();
+        services.AddScoped<IBotUserService, BotUserService>();
     }
 }

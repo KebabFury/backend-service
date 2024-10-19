@@ -1,5 +1,4 @@
-﻿using KebabFury.Innopolice.WebApi.Application.Services;
-using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
+﻿using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KebabFury.Innopolice.WebApi.Controllers;
