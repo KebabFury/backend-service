@@ -2,10 +2,10 @@
 
 namespace KebabFury.Innopolice.WebApi.Application.Dto;
 
-public class BotCommandDto
+public record BotCommandDto
 {
-    public required bool NeedAuth { get; set; }
-    public required string Description { get; set; }
-    public required string RequestUrl { init; get; }
-    public required RequestMethod RequestMethod { get; set; }
+    public required bool NeedAuth { get; init; }
+    public required string Description { get; init; }
+    public required string RequestUrl { get; init; }
+    public required RequestMethod RequestMethod { get; init; }
 }

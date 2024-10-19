@@ -25,7 +25,7 @@ public class BotCommandService : BaseService<BotCommand>, IBotCommandService
 
     public async Task AddCommandsAsync(Guid botId, List<BotCommandDto> commands)
     {
-        if (!await _botRepository.DoesExist(botId))
+        if (!(await _botRepository.DoesExist(botId)))
         {
             throw new EntityNotFoundException(botId, typeof(Bot));
         }

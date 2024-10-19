@@ -2,8 +2,8 @@
 
 public record LoginResultDto
 {
-    public required Guid Id { get; set; }
-    public required string Name { get; set; }
-    public required string Email { get; set; }
-    public required string AccessToken { get; set; }
+    public required Guid Id { get; init; }
+    public required string Name { get; init; }
+    public required string Email { get; init; }
+    public required string AccessToken { get; init; }
 }

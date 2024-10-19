@@ -33,4 +33,9 @@ public class BaseController<TEntity> : ControllerBase where TEntity : class
         await _baseService.DeleteAsync(id);
     }
 
+    [HttpPut]
+    public async Task Update([FromBody] TEntity entity)
+    {
+        await _baseService.UpdateAsync(entity);
+    }
 }
