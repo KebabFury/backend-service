@@ -15,6 +15,7 @@ public class BotService : BaseService<Bot>, IBotService
     public async Task<Bot> CreateAsync(Bot bot)
     {
         bot.Id = Guid.NewGuid();
+        bot.OwnerId = Guid.NewGuid();
         await _botRepository.AddEntityAsync(bot);
         return bot;
     }

@@ -1,8 +1,6 @@
-﻿using KebabFury.Innopolice.WebApi.Domain.Common;
+﻿namespace KebabFury.Innopolice.WebApi.Application.Dto;
 
-namespace KebabFury.Innopolice.WebApi.Domain.Models;
-
-public sealed class User : BaseModel
+public record RegisterDto
 {
     public required string Name { get; set; }
     public required string Email { get; set; }

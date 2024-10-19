@@ -7,11 +7,11 @@ namespace KebabFury.Innopolice.WebApi.Domain.Models;
 public sealed class Bot : BaseModel
 {
     [BsonGuidRepresentation(GuidRepresentation.Standard)]
-    public required Guid OwnerId { init; get; }
-    public required string TgToken { init; get; }
+    public Guid OwnerId { get; set; }
+    public required string TgToken { get; set; }
 
-    public required bool HasAuth { init; get; }
-    public string? OauthClient { init; get; }
-    public string? OauthSecret { init; get; }
-    public string? OauthHost { init; get; }
+    public required bool HasAuth { get; set; }
+    public string? OauthClient { get; set; }
+    public string? OauthSecret { get; set; }
+    public string? OauthHost { get; set; }
 }

@@ -9,5 +9,6 @@ public static class ConfigureData
     {
         services.AddScoped<DataContext>();
         services.AddScoped<BotRepository>();
+        services.AddScoped<UserRepository>();
     }
 }
