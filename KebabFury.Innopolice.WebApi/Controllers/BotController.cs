@@ -1,0 +1,22 @@
+﻿using KebabFury.Innopolice.WebApi.Application.Services;
+using KebabFury.Innopolice.WebApi.Domain.Models;
+using Microsoft.AspNetCore.Mvc;
+
+namespace KebabFury.Innopolice.WebApi.Controllers;
+
+public class BotController : BaseController<Bot>
+{
+    private readonly IBotService _botService;
+    
+    public BotController(IBotService botService) : base(botService)
+    {
+        _botService = botService;
+    }
+
+    [HttpPost("create")]
+    public async Task<Bot> Create([FromBody] Bot bot)
+    {
+        var createdBot = await _botService.CreateAsync(bot);
+        return createdBot;
+    }
+}
