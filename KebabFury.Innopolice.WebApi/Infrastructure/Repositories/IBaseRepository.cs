@@ -2,7 +2,7 @@
 
 public interface IBaseRepository<TEntity> where TEntity : class
 {
-    Task<TEntity> GetByIdAsync(Guid id);
+    Task<TEntity?> GetByIdAsync(Guid id);
     Task<List<TEntity>> SearchEntitiesAsync(Func<TEntity, bool> predicate);
     Task<List<TEntity>> GetAllAsync();
     Task<bool> DoesExist(Guid id);

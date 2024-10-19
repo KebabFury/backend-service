@@ -1,8 +1,11 @@
-﻿using KebabFury.Innopolice.WebApi.Infrastructure.Repositories;
+﻿using KebabFury.Innopolice.WebApi.Application.Exceptions;
+using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
+using KebabFury.Innopolice.WebApi.Domain.Common;
+using KebabFury.Innopolice.WebApi.Infrastructure.Repositories;
 
 namespace KebabFury.Innopolice.WebApi.Application.Services;
 
-public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class
+public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity : BaseModel
 {
     private IBaseRepository<TEntity> _repository;
     
@@ -14,21 +17,26 @@ public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity
 
     public async Task<TEntity> GetByIdAsync(Guid id)
     {
-        return await _repository.GetByIdAsync(id);
+        return await _repository.GetByIdAsync(id) ?? throw new EntityNotFoundException(id, typeof(TEntity));
     }
 
-    public Task<IList<TEntity>> GetAllAsync()
+    public async Task<IList<TEntity>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        return await _repository.GetAllAsync();
     }
 
-    public Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(Guid id)
     {
-        throw new NotImplementedException();
+        await _repository.DeleteAsync(id);
     }
 
-    public Task<TEntity> UpdateAsync(TEntity entity)
+    public async Task UpdateAsync(TEntity entity)
     {
-        throw new NotImplementedException();
+        if (!await _repository.DoesExist(entity.Id))
+        {
+            throw new EntityNotFoundException(entity.Id, typeof(TEntity));
+        }
+
+        await _repository.UpdateEntityAsync(entity.Id, entity);
     }
 }

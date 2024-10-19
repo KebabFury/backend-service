@@ -1,6 +1,6 @@
 ﻿using KebabFury.Innopolice.WebApi.Domain.Models;
 
-namespace KebabFury.Innopolice.WebApi.Application.Services;
+namespace KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
 
 public interface IBotService : IBaseService<Bot>
 {

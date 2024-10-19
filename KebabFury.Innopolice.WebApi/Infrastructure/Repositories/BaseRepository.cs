@@ -10,7 +10,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 {
     protected readonly IMongoCollection<TEntity> _collection;
 
-    public BaseRepository(DataContext context, string collection)
+    protected BaseRepository(DataContext context, string collection)
     {
         _collection = context.GetCollection<TEntity>(collection);
     }
@@ -37,7 +37,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return await allEntities.ToListAsync();
     }
 
-    public async Task<TEntity> GetByIdAsync(Guid id)
+    public async Task<TEntity?> GetByIdAsync(Guid id)
     {
         return await _collection.FindAsync(entity => entity.Id == id).Result.FirstOrDefaultAsync();
     }

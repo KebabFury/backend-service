@@ -1,7 +1,7 @@
 ﻿using KebabFury.Innopolice.WebApi.Application.Dto;
 using KebabFury.Innopolice.WebApi.Domain.Models;
 
-namespace KebabFury.Innopolice.WebApi.Application.Services;
+namespace KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
 
 public interface IUserService : IBaseService<User>
 {

@@ -5,6 +5,7 @@ using KebabFury.Innopolice.WebApi.Infrastructure.Repositories;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 
 namespace KebabFury.Innopolice.WebApi.Application.Services;

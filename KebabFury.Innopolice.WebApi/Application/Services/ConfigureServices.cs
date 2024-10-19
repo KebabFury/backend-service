@@ -1,4 +1,6 @@
-﻿namespace KebabFury.Innopolice.WebApi.Application.Services;
+﻿using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
+
+namespace KebabFury.Innopolice.WebApi.Application.Services;
 
 public static class ConfigureServices
 {

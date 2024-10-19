@@ -8,7 +8,9 @@ public static class ConfigureData
     public static void ConfigureRepositories(this IServiceCollection services)
     {
         services.AddScoped<DataContext>();
+        services.AddAutoMapper(typeof(Program));
         services.AddScoped<BotRepository>();
         services.AddScoped<UserRepository>();
+        services.AddScoped<BotCommandRepository>();
     }
 }
