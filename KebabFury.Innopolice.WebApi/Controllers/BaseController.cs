@@ -1,4 +1,5 @@
-﻿using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
+﻿using System.Security.Claims;
+using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KebabFury.Innopolice.WebApi.Controllers;
@@ -36,5 +37,16 @@ public class BaseController<TEntity> : ControllerBase where TEntity : class
     public async Task Update([FromBody] TEntity entity)
     {
         await _baseService.UpdateAsync(entity);
+    }
+    
+    protected Guid GetAccountId()
+    {
+        var claimValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(claimValue) || !Guid.TryParse(claimValue, out var accountId))
+        {
+            throw new UnauthorizedAccessException();
+        }
+
+        return accountId;
     }
 }

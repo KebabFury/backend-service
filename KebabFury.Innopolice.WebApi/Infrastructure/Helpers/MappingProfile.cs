@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using KebabFury.Innopolice.WebApi.Application.Dto;
+using KebabFury.Innopolice.WebApi.Application.Dto.Bot;
 using KebabFury.Innopolice.WebApi.Domain.Models;
 
 namespace KebabFury.Innopolice.WebApi.Infrastructure.Helpers;
@@ -10,5 +10,6 @@ public class MappingProfile : Profile
     {
         // mappings here
         CreateMap<BotCommand, BotCommandDto>().ReverseMap();
+        CreateMap<BotCreateRequest, Bot>();
     }
 }

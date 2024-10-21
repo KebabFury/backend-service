@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KebabFury.Innopolice.WebApi.Application.Dto;
+using KebabFury.Innopolice.WebApi.Application.Dto.Bot;
 using KebabFury.Innopolice.WebApi.Application.Exceptions;
 using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
 using KebabFury.Innopolice.WebApi.Domain.Models;
@@ -48,7 +49,7 @@ public class BotCommandService : BaseService<BotCommand>, IBotCommandService
         
     }
 
-    private async Task AddCommandAsync(Guid botId, BotCommandDto command)
+    public async Task AddCommandAsync(Guid botId, BotCommandDto command)
     {
         var commandModel = _mapper.Map<BotCommand>(command);
         commandModel.BotId = botId;

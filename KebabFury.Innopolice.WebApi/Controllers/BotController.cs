@@ -1,4 +1,5 @@
-﻿using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
+﻿using KebabFury.Innopolice.WebApi.Application.Dto.Bot;
+using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
 using KebabFury.Innopolice.WebApi.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,9 +15,9 @@ public class BotController : BaseController<Bot>
     }
 
     [HttpPost("create")]
-    public async Task<Bot> Create([FromBody] Bot bot)
+    public async Task<Bot> Create([FromBody] BotCreateRequest botCreateRequest)
     {
-        var createdBot = await _botService.CreateAsync(bot);
+        var createdBot = await _botService.CreateAsync(GetAccountId(), botCreateRequest);
         return createdBot;
     }
 }

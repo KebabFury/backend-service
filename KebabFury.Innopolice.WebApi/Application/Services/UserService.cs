@@ -1,10 +1,10 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using KebabFury.Innopolice.WebApi.Application.Dto;
 using KebabFury.Innopolice.WebApi.Domain.Models;
 using KebabFury.Innopolice.WebApi.Infrastructure.Repositories;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using KebabFury.Innopolice.WebApi.Application.Dto.User;
 using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 
