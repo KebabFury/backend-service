@@ -2,9 +2,9 @@
 
 public record BotCreateRequest
 {
-    public string TgToken { get; init; }
-    public bool NeedAuth { get; init; }
-    public string? OauthClient { get; init; }
-    public string? OauthSecret { get; init; }
-    public string? OauthHost { get; init; }
+    public required string TgToken { get; init; }
+    public required bool NeedAuth { get; init; }
+    public required string? OauthClient { get; init; }
+    public required string? OauthSecret { get; init; }
+    public required string? OauthHost { get; init; }
 }

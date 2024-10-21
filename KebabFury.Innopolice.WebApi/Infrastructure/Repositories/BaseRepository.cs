@@ -1,7 +1,6 @@
 ﻿using System.Linq.Expressions;
 using KebabFury.Innopolice.WebApi.Domain.Common;
 using KebabFury.Innopolice.WebApi.Infrastructure.Context;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace KebabFury.Innopolice.WebApi.Infrastructure.Repositories;

@@ -21,7 +21,7 @@ public class BaseController<TEntity> : ControllerBase where TEntity : class
         return await _baseService.GetByIdAsync(id);
     }
 
-    [HttpGet("get-all")]
+    [HttpGet]
     public async Task<IList<TEntity>> GetAll()
     {
         return await _baseService.GetAllAsync();
@@ -38,7 +38,7 @@ public class BaseController<TEntity> : ControllerBase where TEntity : class
     {
         await _baseService.UpdateAsync(entity);
     }
-    
+
     protected Guid GetAccountId()
     {
         var claimValue = User.FindFirstValue(ClaimTypes.NameIdentifier);

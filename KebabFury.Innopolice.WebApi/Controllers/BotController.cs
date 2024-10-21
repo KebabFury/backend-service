@@ -8,16 +8,15 @@ namespace KebabFury.Innopolice.WebApi.Controllers;
 public class BotController : BaseController<Bot>
 {
     private readonly IBotService _botService;
-    
     public BotController(IBotService botService) : base(botService)
     {
         _botService = botService;
     }
 
-    [HttpPost("create")]
-    public async Task<Bot> Create([FromBody] BotCreateRequest botCreateRequest)
+    [HttpPost]
+    public async Task<Bot> Create([FromBody] BotCreateRequest request)
     {
-        var createdBot = await _botService.CreateAsync(GetAccountId(), botCreateRequest);
+        var createdBot = await _botService.CreateAsync(GetAccountId(), request);
         return createdBot;
     }
 }

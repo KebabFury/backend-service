@@ -10,7 +10,7 @@ namespace KebabFury.Innopolice.WebApi.Controllers;
 public class UserController : BaseController<User>
 {
     private readonly IUserService _userService;
-    
+
     public UserController(IUserService userService) : base(userService)
     {
         _userService = userService;
@@ -29,7 +29,7 @@ public class UserController : BaseController<User>
             return BadRequest(ex.Message);
         }
     }
-    
+
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
     {
