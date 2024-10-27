@@ -20,7 +20,7 @@ public class BotCommandController : BaseController<BotCommand>
         await _botCommandService.AddCommandAsync(botId, command);
     }
 
-    [HttpPost("{botId:guid}")]
+    [HttpPost("{botId:guid}/batch")]
     public async Task CreateCommands(Guid botId, [FromBody] List<BotCommandDto> commands)
     {
         await _botCommandService.AddCommandsAsync(botId, commands);
