@@ -9,7 +9,8 @@ public class BotCommandController : BaseController<BotCommand>
 {
     private readonly IBotCommandService _botCommandService;
 
-    public BotCommandController(IBotCommandService botCommandService) : base(botCommandService)
+    public BotCommandController(IBotCommandService botCommandService)
+        : base(botCommandService)
     {
         _botCommandService = botCommandService;
     }

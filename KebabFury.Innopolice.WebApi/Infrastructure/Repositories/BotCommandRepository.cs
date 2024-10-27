@@ -5,7 +5,6 @@ namespace KebabFury.Innopolice.WebApi.Infrastructure.Repositories;
 
 public class BotCommandRepository : BaseRepository<BotCommand>
 {
-    public BotCommandRepository(DataContext context) : base(context, "botCommands")
-    {
-    }
+    public BotCommandRepository(DataContext context)
+        : base(context, "botCommands") { }
 }

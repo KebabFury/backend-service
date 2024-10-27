@@ -6,7 +6,8 @@ namespace KebabFury.Innopolice.WebApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class BaseController<TEntity> : ControllerBase where TEntity : class
+public class BaseController<TEntity> : ControllerBase
+    where TEntity : class
 {
     private readonly IBaseService<TEntity> _baseService;
 

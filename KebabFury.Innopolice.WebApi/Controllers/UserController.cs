@@ -1,6 +1,4 @@
-﻿using KebabFury.Innopolice.WebApi.Application.Dto;
-using KebabFury.Innopolice.WebApi.Application.Dto.User;
-using KebabFury.Innopolice.WebApi.Application.Services;
+﻿using KebabFury.Innopolice.WebApi.Application.Dto.User;
 using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
 using KebabFury.Innopolice.WebApi.Domain.Models;
 using Microsoft.AspNetCore.Mvc;

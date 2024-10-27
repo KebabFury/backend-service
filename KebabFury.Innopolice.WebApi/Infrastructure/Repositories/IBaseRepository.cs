@@ -1,6 +1,7 @@
 ﻿namespace KebabFury.Innopolice.WebApi.Infrastructure.Repositories;
 
-public interface IBaseRepository<TEntity> where TEntity : class
+public interface IBaseRepository<TEntity>
+    where TEntity : class
 {
     Task<TEntity?> GetByIdAsync(Guid id);
     Task<List<TEntity>> SearchEntitiesAsync(Func<TEntity, bool> predicate);
@@ -10,3 +11,4 @@ public interface IBaseRepository<TEntity> where TEntity : class
     Task UpdateEntityAsync(Guid id, TEntity entity);
     Task DeleteAsync(Guid id);
 }
+

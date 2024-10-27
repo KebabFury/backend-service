@@ -8,7 +8,9 @@ namespace KebabFury.Innopolice.WebApi.Controllers;
 public class BotController : BaseController<Bot>
 {
     private readonly IBotService _botService;
-    public BotController(IBotService botService) : base(botService)
+
+    public BotController(IBotService botService)
+        : base(botService)
     {
         _botService = botService;
     }

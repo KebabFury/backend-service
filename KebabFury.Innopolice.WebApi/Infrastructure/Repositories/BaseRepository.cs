@@ -5,7 +5,8 @@ using MongoDB.Driver;
 
 namespace KebabFury.Innopolice.WebApi.Infrastructure.Repositories;
 
-public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseModel
+public class BaseRepository<TEntity> : IBaseRepository<TEntity>
+    where TEntity : BaseModel
 {
     protected readonly IMongoCollection<TEntity> _collection;
 
