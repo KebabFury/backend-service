@@ -22,7 +22,7 @@ public class BaseController<TEntity> : ControllerBase
         return await _baseService.GetByIdAsync(id);
     }
 
-    [HttpGet]
+    [HttpGet("list-all")]
     public async Task<IList<TEntity>> GetAll()
     {
         return await _baseService.GetAllAsync();
