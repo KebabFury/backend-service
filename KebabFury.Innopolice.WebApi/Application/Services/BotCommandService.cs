@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using KebabFury.Innopolice.WebApi.Application.Dto;
 using KebabFury.Innopolice.WebApi.Application.Dto.Bot;
 using KebabFury.Innopolice.WebApi.Application.Exceptions;
 using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
@@ -14,12 +13,14 @@ public class BotCommandService : BaseService<BotCommand>, IBotCommandService
     private readonly BotRepository _botRepository;
     private readonly IMapper _mapper;
     private readonly ILogger<BotCommandService> _logger;
-    
+
     public BotCommandService(
         BotCommandRepository botCommandRepository,
         BotRepository botRepository,
         IMapper mapper,
-        ILogger<BotCommandService> logger) : base(botCommandRepository)
+        ILogger<BotCommandService> logger
+    )
+        : base(botCommandRepository)
     {
         _botCommandRepository = botCommandRepository;
         _botRepository = botRepository;
@@ -46,7 +47,6 @@ public class BotCommandService : BaseService<BotCommand>, IBotCommandService
             _logger.LogError(ex.Message, ex);
             throw ex;
         }
-        
     }
 
     public async Task AddCommandAsync(Guid botId, BotCommandDto command)
@@ -57,3 +57,4 @@ public class BotCommandService : BaseService<BotCommand>, IBotCommandService
         await _botCommandRepository.AddEntityAsync(commandModel);
     }
 }
+

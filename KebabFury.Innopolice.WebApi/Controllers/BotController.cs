@@ -16,9 +16,6 @@ public class BotController : BaseController<Bot>
     }
 
     [HttpPost]
-    public async Task<Bot> Create([FromBody] BotCreateRequest request)
-    {
-        var createdBot = await _botService.CreateAsync(GetAccountId(), request);
-        return createdBot;
-    }
+    public async Task<Bot> Create([FromBody] BotCreateRequest request) =>
+        await _botService.CreateAsync(GetUserId(), request);
 }

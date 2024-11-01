@@ -40,14 +40,14 @@ public class BaseController<TEntity> : ControllerBase
         await _baseService.UpdateAsync(entity);
     }
 
-    protected Guid GetAccountId()
+    protected Guid GetUserId()
     {
         var claimValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (string.IsNullOrEmpty(claimValue) || !Guid.TryParse(claimValue, out var accountId))
+        if (string.IsNullOrEmpty(claimValue) || !Guid.TryParse(claimValue, out var id))
         {
             throw new UnauthorizedAccessException();
         }
 
-        return accountId;
+        return id;
     }
 }

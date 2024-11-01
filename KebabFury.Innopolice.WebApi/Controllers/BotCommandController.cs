@@ -16,14 +16,10 @@ public class BotCommandController : BaseController<BotCommand>
     }
 
     [HttpPost("{botId:guid}")]
-    public async Task CreateCommand(Guid botId, [FromBody] BotCommandDto command)
-    {
+    public async Task CreateCommand(Guid botId, [FromBody] BotCommandDto command) =>
         await _botCommandService.AddCommandAsync(botId, command);
-    }
 
     [HttpPost("{botId:guid}/batch")]
-    public async Task CreateCommands(Guid botId, [FromBody] List<BotCommandDto> commands)
-    {
+    public async Task CreateCommands(Guid botId, [FromBody] List<BotCommandDto> commands) =>
         await _botCommandService.AddCommandsAsync(botId, commands);
-    }
 }

@@ -10,11 +10,9 @@ public class BotService : BaseService<Bot>, IBotService
 {
     private readonly BotRepository _botRepository;
     private readonly IMapper _mapper;
-    
-    public BotService(
-        BotRepository botRepository,
-        IMapper mapper
-        ) : base(botRepository)
+
+    public BotService(BotRepository botRepository, IMapper mapper)
+        : base(botRepository)
     {
         _botRepository = botRepository;
         _mapper = mapper;
@@ -25,8 +23,9 @@ public class BotService : BaseService<Bot>, IBotService
         var bot = _mapper.Map<Bot>(botCreateRequest);
         bot.Id = Guid.NewGuid();
         bot.OwnerId = ownerId;
-        
+
         await _botRepository.AddEntityAsync(bot);
         return bot;
     }
 }
+
