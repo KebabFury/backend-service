@@ -1,6 +1,5 @@
-﻿namespace KebabFury.Innopolice.Todoist;
+﻿namespace KebabFury.Innopolice.TodoIst;
 
 public class Class1
 {
-
 }
