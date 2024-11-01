@@ -1,6 +1,6 @@
 namespace KebabFury.Innopolice.Todoist.Models;
 
-public sealed record TodoistTask
+public record TodoistTask
 {
     public required string Id;
     public required string? AssignerId;
@@ -13,7 +13,7 @@ public sealed record TodoistTask
     public required string Description;
     public required bool IsCompleted;
     public required List<string>? Labels;
-    public required int Priority;
+    public required int Priority = 1;
     public required int CommentCount;
     public required string? CreatorId;
     public required DateTime CreatedAt;

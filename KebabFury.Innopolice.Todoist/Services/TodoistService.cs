@@ -1,0 +1,29 @@
+using System.Text;
+using System.Text.Json;
+using KebabFury.Innopolice.Todoist.Dto.Requests;
+using KebabFury.Innopolice.Todoist.Dto.Responses;
+
+namespace KebabFury.Innopolice.Todoist.Services;
+
+public sealed class TodoistService
+{
+    private readonly HttpClient _httpClient;
+
+    public TodoistService()
+    {
+        _httpClient = new HttpClient();
+    }
+
+    public async Task<TaskCreateResponse> CreateTask(TaskCreateRequest request)
+    {
+        var message = new HttpRequestMessage(method: HttpMethod.Post, requestUri: "https://api.todoist.com/rest/v2/tasks");
+
+        // TODO need to add auth header 
+
+        message.Content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
+
+        using HttpResponseMessage response = await _httpClient.SendAsync(message);
+
+        return JsonSerializer.Deserialize<TaskCreateResponse>(await response.Content.ReadAsStringAsync());
+    }
+}
