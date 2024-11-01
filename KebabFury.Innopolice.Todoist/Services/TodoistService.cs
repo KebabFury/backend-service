@@ -7,12 +7,7 @@ namespace KebabFury.Innopolice.Todoist.Services;
 
 public sealed class TodoistService
 {
-    private readonly HttpClient _httpClient;
-
-    public TodoistService()
-    {
-        _httpClient = new HttpClient();
-    }
+    private readonly HttpClient _httpClient = new HttpClient();
 
     public async Task<TaskCreateResponse> CreateTask(TaskCreateRequest request)
     {
