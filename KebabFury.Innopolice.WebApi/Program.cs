@@ -1,3 +1,4 @@
+using KebabFury.Innopolice.TodoIst.Services;
 using KebabFury.Innopolice.WebApi.Application.Services;
 using KebabFury.Innopolice.WebApi.Application.Settings;
 using KebabFury.Innopolice.WebApi.Infrastructure;
@@ -15,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureAllSettings(builder.Configuration);
 builder.Services.ConfigureRepositories();
 builder.Services.ConfigureAllServices();
+builder.Services.ConfigureTodoIstServices();
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()

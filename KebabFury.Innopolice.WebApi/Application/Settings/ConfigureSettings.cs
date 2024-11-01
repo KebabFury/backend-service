@@ -1,4 +1,6 @@
-﻿namespace KebabFury.Innopolice.WebApi.Application.Settings;
+﻿using KebabFury.Innopolice.TodoIst.Settings;
+
+namespace KebabFury.Innopolice.WebApi.Application.Settings;
 
 public static class ConfigureSettings
 {
@@ -6,5 +8,6 @@ public static class ConfigureSettings
     {
         services.Configure<DatabaseSettings>(configuration.GetSection("DatabaseSettings"));
         services.Configure<AiServiceSettings>(configuration.GetSection("AiServiceSettings"));
+        services.Configure<TodoIstSettings>(configuration.GetSection("TodoIstSettings"));
     }
 }
