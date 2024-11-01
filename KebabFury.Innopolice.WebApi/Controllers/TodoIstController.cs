@@ -28,6 +28,7 @@ public class TodoIstController : ControllerBase
         return Task.FromResult(new TodoIstAuthorizeResult(authorizationData));
     } 
     
+    [HttpGet("get-token")]
     public async Task<IActionResult> GetTodoistToken([FromQuery] string code = null, [FromQuery] string state = null, [FromQuery] string error = null)
     {
         switch (error)
