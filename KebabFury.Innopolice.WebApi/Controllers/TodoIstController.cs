@@ -1,5 +1,6 @@
 ﻿using KebabFury.Innopolice.Todoist.Dto.Requests;
 using KebabFury.Innopolice.Todoist.Services;
+using KebabFury.Innopolice.WebApi.Application.Dto.Provider;
 using KebabFury.Innopolice.WebApi.Application.Dto.TodoIst;
 using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -26,10 +27,10 @@ public class TodoIstController : ControllerBase
     }
 
     [HttpGet("authorize")]
-    public Task<TodoIstAuthorizeResult> GetAuthorization()
+    public Task<AuthorizeResultDto> GetAuthorization()
     {
         var authorizationData = _todoIstAuthorizationService.Authorize();
-        return Task.FromResult(new TodoIstAuthorizeResult(authorizationData));
+        return Task.FromResult(new AuthorizeResultDto(authorizationData));
     }
 
     [HttpGet("get-token")]

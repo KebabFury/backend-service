@@ -22,6 +22,7 @@ public sealed class TodoistService : ITodoistService
 
         response.EnsureSuccessStatusCode();
 
-        return JsonSerializer.Deserialize<TaskCreateResponse>(await response.Content.ReadAsStringAsync());
+        return JsonSerializer.Deserialize<TaskCreateResponse>(await response.Content.ReadAsStringAsync()) ??
+               throw new InvalidOperationException();
     }
 }

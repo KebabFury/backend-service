@@ -8,4 +8,12 @@ public class CustomProvider : BaseModel
     public required string Name { get; set; }
     public required string ActionCode { get; set; }
     public required string Documentation { get; set; }
+    
+    public required string ClientId { get; set; }
+    public required string ClientSecret { get; set; }
+    public required string AuthorizationEndpoint { get; set; }
+    public required string TokenEndpoint { get; set; }
+    public required string RedirectUri { get; set; }
+    public required string Scope { get; set; }
+    
 }

@@ -49,7 +49,7 @@ public class TodoIstAuthorizationService : ITodoIstAuthorizationService
             response.EnsureSuccessStatusCode();
 
             var responseData = await response.Content.ReadFromJsonAsync<JObject>();
-            return responseData?["access_token"]?.ToString();
+            return responseData?.Value<string>("access_token");
         }
         catch (HttpRequestException ex)
         {
