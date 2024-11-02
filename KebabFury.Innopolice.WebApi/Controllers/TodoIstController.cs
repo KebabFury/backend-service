@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using KebabFury.Innopolice.TodoIst.Services;
+﻿using KebabFury.Innopolice.TodoIst.Services;
 using KebabFury.Innopolice.WebApi.Application.Dto.TodoIst;
 using KebabFury.Innopolice.WebApi.Application.Services.Providers;
 using Microsoft.AspNetCore.Mvc;
@@ -23,13 +22,14 @@ public class TodoIstController : ControllerBase
     }
 
     [HttpGet("authorize")]
-    public Task<string> GetAuthorization()
+    public Task<TodoIstAuthorizeResult> GetAuthorization()
     {
-        return Task.FromResult(_todoIstAuthorizationService.Authorize());
+        var authorizationData = _todoIstAuthorizationService.Authorize();
+        return Task.FromResult(new TodoIstAuthorizeResult(authorizationData));
     } 
     
     [HttpGet("get-token")]
-    public async Task<IActionResult> GetTodoistToken([FromQuery] string code = null, [FromQuery] string state = null, [FromQuery] string error = null)
+    public async Task<IActionResult> GetTodoistToken([FromQuery] string? code = null, [FromQuery] string? state = null, [FromQuery] string? error = null)
     {
         switch (error)
         {

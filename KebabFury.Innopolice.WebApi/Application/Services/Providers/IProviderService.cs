@@ -1,5 +1,4 @@
-﻿using System.IO.Enumeration;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace KebabFury.Innopolice.WebApi.Application.Services.Providers;
 
