@@ -7,6 +7,8 @@ WORKDIR /src
 
 COPY *.sln .
 COPY KebabFury.Innopolice.WebApi/*.csproj ./KebabFury.Innopolice.WebApi/
+COPY KebabFury.Innopolice.Docs/*.csproj ./KebabFury.Innopolice.Docs/
+COPY KebabFury.Innopolice.Todoist/*.csproj ./KebabFury.Innopolice.Todoist/
 
 RUN dotnet restore
 
