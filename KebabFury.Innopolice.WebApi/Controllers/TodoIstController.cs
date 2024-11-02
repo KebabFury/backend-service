@@ -1,8 +1,8 @@
-﻿using KebabFury.Innopolice.TodoIst.Services;
+﻿using KebabFury.Innopolice.Todoist.Dto.Requests;
+using KebabFury.Innopolice.TodoIst.Services;
 using KebabFury.Innopolice.WebApi.Application.Dto.TodoIst;
 using KebabFury.Innopolice.WebApi.Application.Services.Providers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace KebabFury.Innopolice.WebApi.Controllers;
 
@@ -12,13 +12,17 @@ public class TodoIstController : ControllerBase
 {
     private readonly ITodoIstAuthorizationService _todoIstAuthorizationService;
     private readonly IProviderService _providerService;
+    private readonly ITodoistService _todoistService;
 
     public TodoIstController(
         ITodoIstAuthorizationService todoIstAuthorizationService,
-        IProviderService providerService)
+        IProviderService providerService,
+        ITodoistService todoistService,
+        )
     {
         _todoIstAuthorizationService = todoIstAuthorizationService;
         _providerService = providerService;
+        _todoistService = todoistService;
     }
 
     [HttpGet("authorize")]
@@ -26,8 +30,7 @@ public class TodoIstController : ControllerBase
     {
         var authorizationData = _todoIstAuthorizationService.Authorize();
         return Task.FromResult(new TodoIstAuthorizeResult(authorizationData));
-    } 
-    
+    }
     [HttpGet("get-token")]
     public async Task<IActionResult> GetTodoistToken([FromQuery] string? code = null, [FromQuery] string? state = null, [FromQuery] string? error = null)
     {
@@ -45,5 +48,10 @@ public class TodoIstController : ControllerBase
 
         return await _providerService.SaveAuthorizationDataAndReturnResponse(authorizationToken, "Todoist");
     }
-    
+
+    [HttpPost]
+    public Task<IActionResult> CreateTask([FromBody] TaskCreateRequest request)
+    {
+        return Ok(this._todoistService.CreateTask(request));
+    }
 }
