@@ -1,5 +1,4 @@
 ﻿using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
-using KebabFury.Innopolice.WebApi.Application.Services.Providers;
 
 namespace KebabFury.Innopolice.WebApi.Application.Services;
 

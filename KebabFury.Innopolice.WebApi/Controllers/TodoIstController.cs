@@ -1,7 +1,7 @@
 ﻿using KebabFury.Innopolice.Todoist.Dto.Requests;
 using KebabFury.Innopolice.Todoist.Services;
 using KebabFury.Innopolice.WebApi.Application.Dto.TodoIst;
-using KebabFury.Innopolice.WebApi.Application.Services.Providers;
+using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KebabFury.Innopolice.WebApi.Controllers;

@@ -1,19 +1,33 @@
 ﻿using System.Text;
-using System.Text.Json;
 using KebabFury.Innopolice.Todoist.Settings;
+using KebabFury.Innopolice.WebApi.Application.Dto.Provider;
+using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
+using KebabFury.Innopolice.WebApi.Application.Settings;
+using KebabFury.Innopolice.WebApi.Domain.Models;
+using KebabFury.Innopolice.WebApi.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
-namespace KebabFury.Innopolice.WebApi.Application.Services.Providers;
+namespace KebabFury.Innopolice.WebApi.Application.Services;
 
 public class ProviderService : IProviderService
 {
+    private readonly CustomProviderRepository _customProviderRepository;
     private readonly BaseHackathonSettings _baseHackathonSettings;
+    private readonly ParserSettings _parserSettings;
 
-    public ProviderService(IOptions<BaseHackathonSettings> baseHackthosSettings)
+    public ProviderService(
+        IOptions<BaseHackathonSettings> baseHackthosSettings,
+        IOptions<ParserSettings> parserSettings,
+        CustomProviderRepository customProviderRepository)
     {
         _baseHackathonSettings = baseHackthosSettings.Value;
+        _parserSettings = parserSettings.Value;
+        _customProviderRepository = customProviderRepository;
     }
+    
     public async Task<JsonResult> SaveAuthorizationDataAndReturnResponse(string authorizationData, string systemName)
     {
         var httpClient = new HttpClient();
@@ -52,5 +66,44 @@ public class ProviderService : IProviderService
         {
             return new JsonResult(new { detail = $"Error occurred while saving authorization data: {ex.Message}" }) { StatusCode = StatusCodes.Status500InternalServerError };
         }
+    }
+
+    public async Task CreateCustomAsync(CreateCustomProviderRequest createRequest)
+    {
+        var httpClient = new HttpClient();
+        var httpRequest = new HttpRequestMessage(HttpMethod.Post, _parserSettings.ParseEndpointUrl);
+        httpRequest.Content = new StringContent(createRequest.SwaggerJson, Encoding.UTF8, "application/json");
+
+        using var response = await httpClient.SendAsync(httpRequest);
+        response.EnsureSuccessStatusCode();
+
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var documentationDto = JsonSerializer.Deserialize<DocumentationDto>(responseContent);
+
+        var provider = new CustomProvider
+        {
+            Id = Guid.NewGuid(),
+            Name = createRequest.Name,
+            ActionCode = documentationDto.ActionCode,
+            Documentation = documentationDto.Documentation
+        };
+        await _customProviderRepository.AddEntityAsync(provider);
+    }
+
+    public async Task<IList<CustomProviderDocumentationDto>> ListAllDocumentations()
+    {
+        var customProviders = await _customProviderRepository.GetAllAsync();
+        var documentations = customProviders.Select(GetDocumentationDto).ToList();
+        return documentations;
+    }
+
+    private CustomProviderDocumentationDto GetDocumentationDto(CustomProvider provider)
+    {
+        return new()
+        {
+            Name = provider.Name,
+            ActionCode = provider.ActionCode,
+            Documentation = provider.Documentation
+        };
     }
 }
