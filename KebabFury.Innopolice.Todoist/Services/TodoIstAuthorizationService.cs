@@ -8,12 +8,10 @@ namespace KebabFury.Innopolice.TodoIst.Services;
 public class TodoIstAuthorizationService : ITodoIstAuthorizationService
 {
     private readonly TodoIstSettings _todoIstSettings;
-    
     public TodoIstAuthorizationService(IOptions<TodoIstSettings> todoIstSettings)
     {
         _todoIstSettings = todoIstSettings.Value;
     }
-    
     public string Authorize()
     {
         var authorizationUrl = $"{_todoIstSettings.Oauth_Api_Url}?" +
@@ -44,7 +42,7 @@ public class TodoIstAuthorizationService : ITodoIstAuthorizationService
         try
         {
             var response = await httpClient.PostAsync(
-                _todoIstSettings.Token_Exchange_Api_Url, 
+                _todoIstSettings.Token_Exchange_Api_Url,
                 new FormUrlEncodedContent(tokenParams)
             );
 

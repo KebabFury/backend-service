@@ -2,10 +2,11 @@ using System.Text;
 using System.Text.Json;
 using KebabFury.Innopolice.Todoist.Dto.Requests;
 using KebabFury.Innopolice.Todoist.Dto.Responses;
+using KebabFury.Innopolice.TodoIst.Services;
 
 namespace KebabFury.Innopolice.Todoist.Services;
 
-public sealed class TodoistService
+public sealed class TodoistService : ITodoistService
 {
     private readonly HttpClient _httpClient = new HttpClient();
 
