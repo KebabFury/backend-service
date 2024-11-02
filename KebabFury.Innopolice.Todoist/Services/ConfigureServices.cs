@@ -1,5 +1,4 @@
-﻿using KebabFury.Innopolice.Todoist.Services;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace KebabFury.Innopolice.Todoist.Services;
 

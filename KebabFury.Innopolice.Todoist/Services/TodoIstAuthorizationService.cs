@@ -22,7 +22,7 @@ public class TodoIstAuthorizationService : ITodoIstAuthorizationService
         return authorizationUrl;
     }
 
-    public async Task<string> CallbackAsync(string code = null, string state = null, string error = null)
+    public async Task<string> CallbackAsync(string? code = null, string? state = null, string? error = null)
     {
         var httpClient = new HttpClient();
         if (state != _todoIstSettings.State)

@@ -2,7 +2,6 @@ using System.Text;
 using System.Text.Json;
 using KebabFury.Innopolice.Todoist.Dto.Requests;
 using KebabFury.Innopolice.Todoist.Dto.Responses;
-using KebabFury.Innopolice.Todoist.Services;
 
 namespace KebabFury.Innopolice.Todoist.Services;
 
@@ -19,7 +18,9 @@ public sealed class TodoistService : ITodoistService
         message.Content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
 
         using var response = await _httpClient.SendAsync(message);
+
         response.EnsureSuccessStatusCode();
+
         return JsonSerializer.Deserialize<TaskCreateResponse>(await response.Content.ReadAsStringAsync());
     }
 }
