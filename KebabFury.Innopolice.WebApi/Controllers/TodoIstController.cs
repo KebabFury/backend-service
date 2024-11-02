@@ -31,6 +31,7 @@ public class TodoIstController : ControllerBase
         var authorizationData = _todoIstAuthorizationService.Authorize();
         return Task.FromResult(new TodoIstAuthorizeResult(authorizationData));
     }
+
     [HttpGet("get-token")]
     public async Task<IActionResult> GetTodoistToken([FromQuery] string? code = null, [FromQuery] string? state = null, [FromQuery] string? error = null)
     {
@@ -50,8 +51,8 @@ public class TodoIstController : ControllerBase
     }
 
     [HttpPost("create_task")]
-    public async Task<IActionResult> CreateTask([FromBody] TaskCreateRequest request)
+    public async Task<IActionResult> CreateTask([FromQuery] string accessToken, [FromBody] TaskCreateRequest request)
     {
-        return Ok(await this._todoistService.CreateTask(request));
+        return Ok(await this._todoistService.CreateTask(request, accessToken));
     }
 }

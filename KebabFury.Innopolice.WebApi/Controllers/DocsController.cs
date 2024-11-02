@@ -6,6 +6,7 @@ namespace KebabFury.Innopolice.WebApi.Controllers;
 [Route("[controller]")]
 public sealed class DocsController : ControllerBase
 {
+    [HttpGet]
     public async Task<IActionResult> Todoist()
     {
         return Ok();

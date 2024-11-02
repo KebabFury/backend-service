@@ -5,5 +5,5 @@ namespace KebabFury.Innopolice.Todoist.Services;
 
 public interface ITodoistService
 {
-    public Task<TaskCreateResponse> CreateTask(TaskCreateRequest request);
+    public Task<TaskCreateResponse> CreateTask(TaskCreateRequest request, string accessToken);
 }
