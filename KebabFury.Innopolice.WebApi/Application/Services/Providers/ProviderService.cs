@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
-using KebabFury.Innopolice.TodoIst.Settings;
+using KebabFury.Innopolice.Todoist.Settings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -14,7 +14,6 @@ public class ProviderService : IProviderService
     {
         _baseHackathonSettings = baseHackthosSettings.Value;
     }
-    
     public async Task<JsonResult> SaveAuthorizationDataAndReturnResponse(string authorizationData, string systemName)
     {
         var httpClient = new HttpClient();

@@ -1,4 +1,4 @@
-﻿namespace KebabFury.Innopolice.TodoIst.Settings;
+﻿namespace KebabFury.Innopolice.Todoist.Settings;
 
 public record TodoIstSettings
 {

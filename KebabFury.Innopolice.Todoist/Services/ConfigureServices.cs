@@ -1,7 +1,7 @@
 ﻿using KebabFury.Innopolice.Todoist.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KebabFury.Innopolice.TodoIst.Services;
+namespace KebabFury.Innopolice.Todoist.Services;
 
 public static class ConfigureServices
 {

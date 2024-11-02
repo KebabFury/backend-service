@@ -1,7 +1,7 @@
 using KebabFury.Innopolice.Todoist.Dto.Requests;
 using KebabFury.Innopolice.Todoist.Dto.Responses;
 
-namespace KebabFury.Innopolice.TodoIst.Services;
+namespace KebabFury.Innopolice.Todoist.Services;
 
 public interface ITodoistService
 {

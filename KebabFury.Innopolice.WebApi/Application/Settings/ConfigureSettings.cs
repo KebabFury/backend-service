@@ -1,4 +1,4 @@
-﻿using KebabFury.Innopolice.TodoIst.Settings;
+﻿using KebabFury.Innopolice.Todoist.Settings;
 
 namespace KebabFury.Innopolice.WebApi.Application.Settings;
 

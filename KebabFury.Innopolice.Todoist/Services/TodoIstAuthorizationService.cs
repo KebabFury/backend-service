@@ -1,9 +1,9 @@
 ﻿using System.Net.Http.Json;
-using KebabFury.Innopolice.TodoIst.Settings;
+using KebabFury.Innopolice.Todoist.Settings;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 
-namespace KebabFury.Innopolice.TodoIst.Services;
+namespace KebabFury.Innopolice.Todoist.Services;
 
 public class TodoIstAuthorizationService : ITodoIstAuthorizationService
 {

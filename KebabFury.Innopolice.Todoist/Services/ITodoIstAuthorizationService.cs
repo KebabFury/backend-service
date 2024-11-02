@@ -1,4 +1,4 @@
-﻿namespace KebabFury.Innopolice.TodoIst.Services;
+﻿namespace KebabFury.Innopolice.Todoist.Services;
 
 public interface ITodoIstAuthorizationService
 {

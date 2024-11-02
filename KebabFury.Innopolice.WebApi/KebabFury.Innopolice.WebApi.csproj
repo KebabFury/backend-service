@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KebabFury.Innopolice.TodoIst\KebabFury.Innopolice.TodoIst.csproj" />
+    <ProjectReference Include="..\KebabFury.Innopolice.Todoist\KebabFury.Innopolice.Todoist.csproj" />
   </ItemGroup>
 
 </Project>

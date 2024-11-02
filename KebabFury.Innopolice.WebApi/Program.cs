@@ -1,4 +1,4 @@
-using KebabFury.Innopolice.TodoIst.Services;
+using KebabFury.Innopolice.Todoist.Services;
 using KebabFury.Innopolice.WebApi.Application.Services;
 using KebabFury.Innopolice.WebApi.Application.Settings;
 using KebabFury.Innopolice.WebApi.Infrastructure;

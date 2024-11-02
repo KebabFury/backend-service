@@ -1,5 +1,5 @@
 ﻿using KebabFury.Innopolice.Todoist.Dto.Requests;
-using KebabFury.Innopolice.TodoIst.Services;
+using KebabFury.Innopolice.Todoist.Services;
 using KebabFury.Innopolice.WebApi.Application.Dto.TodoIst;
 using KebabFury.Innopolice.WebApi.Application.Services.Providers;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +17,7 @@ public class TodoIstController : ControllerBase
     public TodoIstController(
         ITodoIstAuthorizationService todoIstAuthorizationService,
         IProviderService providerService,
-        ITodoistService todoistService,
+        ITodoistService todoistService
         )
     {
         _todoIstAuthorizationService = todoIstAuthorizationService;
