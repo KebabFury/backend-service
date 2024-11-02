@@ -4,7 +4,7 @@ namespace KebabFury.Innopolice.WebApi.Application.Dto.TodoIst;
 
 public record TodoIstAuthorizeResult
 {
-    [JsonPropertyName("name")]
+    [JsonPropertyName("url")]
     public string Url { get; set; }
 
     public TodoIstAuthorizeResult(string url)

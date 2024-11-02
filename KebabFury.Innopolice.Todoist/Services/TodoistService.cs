@@ -17,8 +17,8 @@ public sealed class TodoistService
 
         message.Content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
 
-        using HttpResponseMessage response = await _httpClient.SendAsync(message);
-
+        using var response = await _httpClient.SendAsync(message);
+        response.EnsureSuccessStatusCode();
         return JsonSerializer.Deserialize<TaskCreateResponse>(await response.Content.ReadAsStringAsync());
     }
 }

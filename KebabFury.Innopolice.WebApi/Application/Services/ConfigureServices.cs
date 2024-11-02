@@ -1,4 +1,5 @@
 ﻿using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
+using KebabFury.Innopolice.WebApi.Application.Services.Providers;
 
 namespace KebabFury.Innopolice.WebApi.Application.Services;
 
@@ -11,5 +12,6 @@ public static class ConfigureServices
         services.AddScoped<IBotCommandService, BotCommandService>();
         services.AddScoped<IBotUserService, BotUserService>();
         services.AddScoped<IAiService, AiService>();
+        services.AddScoped<IProviderService, ProviderService>();
     }
 }
