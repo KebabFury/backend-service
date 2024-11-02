@@ -5,7 +5,7 @@ namespace KebabFury.Innopolice.WebApi.Infrastructure.Repositories;
 
 public class CustomProviderRepository : BaseRepository<CustomProvider>
 {
-    protected CustomProviderRepository(DataContext context) : base(context, "providers")
+    public CustomProviderRepository(DataContext context) : base(context, "providers")
     {
     }
 }

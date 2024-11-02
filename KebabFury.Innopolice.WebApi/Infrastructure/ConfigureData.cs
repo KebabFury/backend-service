@@ -13,5 +13,6 @@ public static class ConfigureData
         services.AddScoped<UserRepository>();
         services.AddScoped<BotCommandRepository>();
         services.AddScoped<BotUserRepository>();
+        services.AddScoped<CustomProviderRepository>();
     }
 }
