@@ -19,7 +19,7 @@ jobs:
             cd ${{ secrets.PROJECT_FOLDER }};
             git checkout main;
             git pull;
-      - name: Distpatch Event
+      - name: Dispatch Event
         run: |
           curl -L \
             -X POST \
