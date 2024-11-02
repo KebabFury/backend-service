@@ -18,4 +18,4 @@ jobs:
           script: |
             cd ${{ secrets.PROJECT_FOLDER }};
             git checkout main;
-            git pull -u ${{ secrets.GIT_TOKEN }} -p ${{ secrets.GIT_TOKEN }};
+            git pull;
