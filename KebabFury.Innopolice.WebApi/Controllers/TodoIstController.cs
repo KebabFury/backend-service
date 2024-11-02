@@ -49,9 +49,9 @@ public class TodoIstController : ControllerBase
         return await _providerService.SaveAuthorizationDataAndReturnResponse(authorizationToken, "Todoist");
     }
 
-    [HttpPost]
-    public Task<IActionResult> CreateTask([FromBody] TaskCreateRequest request)
+    [HttpPost("create_task")]
+    public async Task<IActionResult> CreateTask([FromBody] TaskCreateRequest request)
     {
-        return Ok(this._todoistService.CreateTask(request));
+        return Ok(await this._todoistService.CreateTask(request));
     }
 }
