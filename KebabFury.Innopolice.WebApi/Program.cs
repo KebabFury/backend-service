@@ -39,10 +39,9 @@ if (app.Environment.IsDevelopment())
 app.UseCors(corsPolicyBuilder =>
 {
     corsPolicyBuilder
-        .WithOrigins("http://localhost:4200")
+        .AllowAnyOrigin()
         .AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowCredentials();
+        .AllowAnyMethod();
 });
 
 app.UseHttpsRedirection();
