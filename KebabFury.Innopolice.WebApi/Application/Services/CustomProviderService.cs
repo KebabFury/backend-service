@@ -73,7 +73,7 @@ public class CustomProviderService : BaseService<CustomProvider>, ICustomProvide
             Id = Guid.NewGuid(),
             UserId = new Guid(_defaultUserAccount.Id),
             Name = providerName,
-            Actions = documentationDto.Actions,
+            ActionCode = documentationDto.Actions,
             Documentation = documentationDto.Documentation,
             SwaggerJson = swaggerJson,
             ClientId = createRequest.ClientId,
@@ -120,7 +120,7 @@ public class CustomProviderService : BaseService<CustomProvider>, ICustomProvide
         return new CustomProviderDocumentationDto
         {
             Name = provider.Name,
-            Actions = provider.Actions,
+            ActionCode = provider.ActionCode,
             Documentation = provider.Documentation
         };
     }

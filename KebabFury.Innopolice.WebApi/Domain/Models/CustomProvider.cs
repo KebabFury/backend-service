@@ -10,7 +10,7 @@ public class CustomProvider : BaseModel
     [BsonGuidRepresentation(GuidRepresentation.Standard)]
     public required Guid UserId { get; set; }
     public required string Name { get; set; }
-    public required string Actions { get; set; }
+    public required string ActionCode { get; set; }
     public required string Documentation { get; set; }
     public required string SwaggerJson { get; set; }
     
