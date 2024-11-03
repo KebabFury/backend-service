@@ -1,23 +1,11 @@
-﻿using System.Net;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using AutoMapper;
-using KebabFury.Innopolice.Todoist.Settings;
+﻿using System.Text.Json;
 using KebabFury.Innopolice.WebApi.Application.Dto.Provider;
-using KebabFury.Innopolice.WebApi.Application.Exceptions;
 using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
 using KebabFury.Innopolice.WebApi.Application.Settings;
 using KebabFury.Innopolice.WebApi.Domain.Models;
 using KebabFury.Innopolice.WebApi.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 using Microsoft.Extensions.Options;
-using MongoDB.Bson.IO;
-using Newtonsoft.Json.Linq;
 using HttpMethod = System.Net.Http.HttpMethod;
-using HttpVersion = System.Net.HttpVersion;
-using JsonConvert = Newtonsoft.Json.JsonConvert;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace KebabFury.Innopolice.WebApi.Application.Services;
