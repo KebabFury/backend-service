@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KebabFury.Innopolice.WebApi.Application.Services;
 
-public static class TaskService
+public static class ProviderMethodHandleService
 {
     
-    public static async Task<JsonResult> CreateTask(CreateTaskRequest createRequest)
+    public static async Task<JsonResult> HandleAsync(CreateTaskRequest createRequest)
     {
         var httpClient = new HttpClient();
 

@@ -61,13 +61,13 @@ public class ProviderController : BaseController<CustomProvider>
     [HttpPost("create-provider")]
     public async Task Create([FromBody] CreateCustomProviderRequest request)
     {
-        await _providerService.CreateCustomAsync(request);
+        await _providerService.CreateCustomProviderAsync(request);
     }
 
-    [HttpPost("create-task")]
+    [HttpPost("handle-method")]
     public async Task<JsonResult> CreateTask(CreateTaskRequest request)
     {
-        return await TaskService.CreateTask(request);
+        return await ProviderMethodHandleService.HandleAsync(request);
     }
     
 }

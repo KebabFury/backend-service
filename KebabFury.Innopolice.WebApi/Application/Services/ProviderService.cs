@@ -58,15 +58,7 @@ public class ProviderService : BaseService<CustomProvider>, IProviderService
         }
         catch (HttpRequestException ex) when (ex.StatusCode.HasValue)
         {
-            return ex.StatusCode switch
-            {
-                HttpStatusCode.BadRequest => new JsonResult(new { detail = "Bad request to save authorization data" }) { StatusCode = StatusCodes.Status400BadRequest },
-                HttpStatusCode.Unauthorized => new JsonResult(new { detail = "Unauthorized to save authorization data" }) { StatusCode = StatusCodes.Status401Unauthorized },
-                HttpStatusCode.Forbidden => new JsonResult(new { detail = "Forbidden to save authorization data" }) { StatusCode = StatusCodes.Status403Forbidden },
-                HttpStatusCode.NotFound => new JsonResult(new { detail = "Endpoint to save authorization data not found" }) { StatusCode = StatusCodes.Status404NotFound },
-                HttpStatusCode.InternalServerError or HttpStatusCode.BadGateway => new JsonResult(new { detail = "Server error while saving authorization data" }) { StatusCode = StatusCodes.Status502BadGateway },
-                _ => new JsonResult(new { detail = $"Unexpected error: {ex.Message}" }) { StatusCode = StatusCodes.Status500InternalServerError }
-            };
+            throw;
         }
         catch (Exception ex)
         {
@@ -115,7 +107,7 @@ public class ProviderService : BaseService<CustomProvider>, IProviderService
         return responseData?.Value<string>("access_token") ?? throw new InvalidOperationException();
     }
 
-    public async Task CreateCustomAsync(CreateCustomProviderRequest createRequest)
+    public async Task CreateCustomProviderAsync(CreateCustomProviderRequest createRequest)
     {
         var httpClient = new HttpClient();
         var httpRequest = new HttpRequestMessage(HttpMethod.Post, _parserSettings.ParseEndpointUrl);
@@ -131,11 +123,13 @@ public class ProviderService : BaseService<CustomProvider>, IProviderService
             throw new InvalidOperationException();
         }
 
+
+        var providerName = await GetValidNameForProvider(createRequest.Name);
         var callbackUrl = $"{_hostSettings.BaseUrl}/{createRequest.Name.ToLower()}/get-token";
         var provider = new CustomProvider
         {
             Id = Guid.NewGuid(),
-            Name = createRequest.Name,
+            Name = providerName,
             ActionCode = documentationDto.ActionCode,
             Documentation = documentationDto.Documentation,
             ClientId = createRequest.ClientId,
@@ -153,6 +147,28 @@ public class ProviderService : BaseService<CustomProvider>, IProviderService
         var customProviders = await _customProviderRepository.GetAllAsync();
         var documentations = customProviders.Select(GetDocumentationDto).ToList();
         return documentations;
+    }
+
+    private async Task<string> GetValidNameForProvider(string name)
+    {
+        var provider = await _customProviderRepository.GetByName(name);
+        if (provider is null)
+        {
+            return name;
+        }
+
+        var index = 1;
+        while (true)
+        {
+            var newName = $"{name}_{index}";
+            var checkProvider = await _customProviderRepository.GetByName(newName);
+            if (checkProvider is null)
+            {
+                return newName;
+            }
+
+            index++;
+        }
     }
 
     private CustomProviderDocumentationDto GetDocumentationDto(CustomProvider provider)
