@@ -56,7 +56,7 @@ public class CustomProviderAuthorizationService : ICustomProviderAuthorizationSe
         };
 
         var response = await httpClient.PostAsync(
-            provider.AuthorizationEndpoint,
+            provider.TokenEndpoint,
             new FormUrlEncodedContent(tokenParams));
 
         response.EnsureSuccessStatusCode();

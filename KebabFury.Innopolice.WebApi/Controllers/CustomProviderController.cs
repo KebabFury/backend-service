@@ -82,5 +82,10 @@ public class CustomProviderController : BaseController<CustomProvider>
     {
         return await ProviderEndpointHandleService.HandleAsync(request);
     }
-    
+
+    [HttpPut("{id:guid}/deep-upadte")]
+    public async Task DeepUpdate(Guid id, [FromBody] CreateCustomProviderRequest request)
+    {
+        
+    }
 }

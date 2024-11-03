@@ -10,4 +10,5 @@ public interface ICustomProviderService : IBaseService<CustomProvider>
     Task<IList<CustomProvider>> ListByUserId(Guid userId);
     Task CreateCustomProviderAsync(CreateCustomProviderRequest request);
     Task<IList<CustomProviderDocumentationDto>> ListAllDocumentations();
+    Task DeepUpdateAsync(Guid id, CreateCustomProviderRequest request);
 }
