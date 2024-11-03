@@ -24,12 +24,6 @@ public class CustomProviderController : BaseController<CustomProvider>
         _customProviderAuthorizationService = customProviderAuthorizationService;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Test([FromBody] string st)
-    {
-        return Ok();
-    }
-
     [HttpGet("by-user-id")]
     public async Task<IList<CustomProvider>> ListByUserId()
     {
