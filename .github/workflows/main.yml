@@ -19,6 +19,7 @@ jobs:
             cd ${{ secrets.PROJECT_FOLDER }};
             git checkout main;
             git pull;
+            cp KebabFury.Innopolice.WebApi/appsettings.Docker.json KebabFury/Innopolice.WebApi/appsettings.json;
       - name: Dispatch Event
         run: |
           curl -L \
