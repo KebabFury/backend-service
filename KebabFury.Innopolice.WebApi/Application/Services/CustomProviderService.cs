@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Runtime.CompilerServices;
+using System.Text.Json;
 using KebabFury.Innopolice.WebApi.Application.Dto.Provider;
 using KebabFury.Innopolice.WebApi.Application.Exceptions;
 using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
@@ -94,6 +95,11 @@ public class CustomProviderService : BaseService<CustomProvider>, ICustomProvide
         provider.Scope = request.Scope;
 
         await _customProviderRepository.UpdateEntityAsync(id, provider);
+    }
+
+    public async Task DeleteAll()
+    {
+        await _customProviderRepository.DeleteAllAsync();
     }
 
     private async Task<string> GetValidNameForProvider(string name)

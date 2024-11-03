@@ -86,6 +86,12 @@ public class CustomProviderController : BaseController<CustomProvider>
     [HttpPut("{id:guid}/deep-upadte")]
     public async Task DeepUpdate(Guid id, [FromBody] CreateCustomProviderRequest request)
     {
-        
+        await _customProviderService.DeepUpdateAsync(id, request);
+    }
+
+    [HttpDelete("delete-all")]
+    public async Task DeleteAll()
+    {
+        await _customProviderService.DeleteAll();
     }
 }

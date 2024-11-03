@@ -17,4 +17,10 @@ public class CustomProviderRepository : BaseRepository<CustomProvider>
         
         return result;
     }
+
+    public async Task DeleteAllAsync()
+    {
+        var filter = Builders<CustomProvider>.Filter.Empty;
+        await _collection.DeleteManyAsync(filter);
+    }
 }
