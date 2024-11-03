@@ -4,30 +4,42 @@ using KebabFury.Innopolice.WebApi.Application.Services;
 using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
 using KebabFury.Innopolice.WebApi.Domain.Models;
 using KebabFury.Innopolice.WebApi.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KebabFury.Innopolice.WebApi.Controllers;
 
 [Route("provider")]
-public class ProviderController : BaseController<CustomProvider>
+public class CustomProviderController : BaseController<CustomProvider>
 {
-    private readonly IProviderService _providerService;
+    private readonly ICustomProviderService _customProviderService;
+    private readonly ICustomProviderAuthorizationService _customProviderAuthorizationService;
 
-    public ProviderController(IProviderService providerService) : base(providerService)
+    public CustomProviderController(
+        ICustomProviderService customProviderService,
+        ICustomProviderAuthorizationService customProviderAuthorizationService) : base(customProviderService)
     {
-        _providerService = providerService;
+        _customProviderService = customProviderService;
+        _customProviderAuthorizationService = customProviderAuthorizationService;
+    }
+
+    [HttpGet("by-user-id")]
+    public async Task<IList<CustomProvider>> ListByUserId()
+    {
+        var accountId = GetUserId();
+        return await _customProviderService.ListByUserId(accountId);
     }
     
     [HttpGet("list-docs")]
     public Task<IList<CustomProviderDocumentationDto>> ListAllDocumentations()
     {
-        return _providerService.ListAllDocumentations();
+        return _customProviderService.ListAllDocumentations();
     }
 
     [HttpGet("{providerName}/authorize")]
     public Task<AuthorizeResultDto> Authorize(string providerName)
     {
-        return _providerService.Authorize(providerName);
+        return _customProviderAuthorizationService.Authorize(providerName);
     }
 
     [HttpGet("{providerName}/get-token")]
@@ -40,8 +52,8 @@ public class ProviderController : BaseController<CustomProvider>
 
         try
         {
-            var result = await _providerService.CallbackAsync(providerName, code, state);
-            return await _providerService.SaveAuthorizationDataAndReturnResponse(result, providerName);
+            var result = await _customProviderAuthorizationService.CallbackAsync(providerName, code, state);
+            return await _customProviderAuthorizationService.SaveAuthorizationDataAndReturnResponse(result, providerName);
         }
         catch (HttpRequestException ex)
         {
@@ -61,13 +73,13 @@ public class ProviderController : BaseController<CustomProvider>
     [HttpPost("create-provider")]
     public async Task Create([FromBody] CreateCustomProviderRequest request)
     {
-        await _providerService.CreateCustomProviderAsync(request);
+        await _customProviderService.CreateCustomProviderAsync(request);
     }
 
-    [HttpPost("handle-method")]
+    [HttpPost("handle-provider-endpoint")]
     public async Task<JsonResult> CreateTask(CreateTaskRequest request)
     {
-        return await ProviderMethodHandleService.HandleAsync(request);
+        return await ProviderEndpointHandleService.HandleAsync(request);
     }
     
 }

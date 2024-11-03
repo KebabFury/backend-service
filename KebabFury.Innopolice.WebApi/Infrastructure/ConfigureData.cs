@@ -9,10 +9,7 @@ public static class ConfigureData
     {
         services.AddScoped<DataContext>();
         services.AddAutoMapper(typeof(Program));
-        services.AddScoped<BotRepository>();
         services.AddScoped<UserRepository>();
-        services.AddScoped<BotCommandRepository>();
-        services.AddScoped<BotUserRepository>();
         services.AddScoped<CustomProviderRepository>();
     }
 }

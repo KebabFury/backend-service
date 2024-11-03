@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Text;
+﻿using System.Text;
 using KebabFury.Innopolice.Todoist.Settings;
 using KebabFury.Innopolice.WebApi.Application.Dto.Provider;
 using KebabFury.Innopolice.WebApi.Application.Exceptions;
@@ -9,103 +8,32 @@ using KebabFury.Innopolice.WebApi.Domain.Models;
 using KebabFury.Innopolice.WebApi.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace KebabFury.Innopolice.WebApi.Application.Services;
 
-public class ProviderService : BaseService<CustomProvider>, IProviderService
+public class CustomProviderService : BaseService<CustomProvider>, ICustomProviderService
 {
     private readonly CustomProviderRepository _customProviderRepository;
-    private readonly BaseHackathonSettings _baseHackathonSettings;
     private readonly ParserSettings _parserSettings;
     private readonly HostSettings _hostSettings;
+    private readonly DefaultUserAccount _defaultUserAccount;
 
-    public ProviderService(
-        IOptions<BaseHackathonSettings> baseHackathonSettings,
+    public CustomProviderService(
         IOptions<ParserSettings> parserSettings,
         IOptions<HostSettings> hostSettings,
+        IOptions<DefaultUserAccount> defaultUserAccount,
         CustomProviderRepository customProviderRepository) : base(customProviderRepository)
     {
-        _baseHackathonSettings = baseHackathonSettings.Value;
         _parserSettings = parserSettings.Value;
         _hostSettings = hostSettings.Value;
+        _defaultUserAccount = defaultUserAccount.Value;
         _customProviderRepository = customProviderRepository;
     }
-    
-    public async Task<JsonResult> SaveAuthorizationDataAndReturnResponse(string authorizationData, string systemName)
-    {
-        var httpClient = new HttpClient();
-        var header = new { Authorization = $"Bearer {_baseHackathonSettings.UserTokenFromTgBot}" };
 
-        var data = new
-        {
-            system_name = systemName,
-            authorization_data_json = JsonSerializer.Serialize(authorizationData)
-        };
-
-        var requestContent = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
-        requestContent.Headers.Add("Authorization", header.Authorization);
-
-        try
-        {
-            var response = await httpClient.PostAsync(_baseHackathonSettings.SaveAuthDataEndpoint, requestContent);
-            response.EnsureSuccessStatusCode();
-
-            return response.IsSuccessStatusCode ? new JsonResult(new { message = "Authorization successful and data saved." }) { StatusCode = StatusCodes.Status200OK }
-                : new JsonResult(new { message = $"Unexpected response: {response.StatusCode}" }) { StatusCode = (int)response.StatusCode };
-        }
-        catch (HttpRequestException ex) when (ex.StatusCode.HasValue)
-        {
-            throw;
-        }
-        catch (Exception ex)
-        {
-            return new JsonResult(new { detail = $"Error occurred while saving authorization data: {ex.Message}" }) { StatusCode = StatusCodes.Status500InternalServerError };
-        }
-    }
-
-    public async Task<AuthorizeResultDto> Authorize(string providerName)
-    {
-        var provider = await _customProviderRepository.GetByName(providerName);
-        if (provider is null)
-        {
-            throw new ProviderNotFoundException(providerName);
-        }
-        
-        var authorizationUrl = $"{provider.AuthorizationEndpoint}?" +
-                               $"client_id={provider.ClientId}&" +
-                               $"scope={provider.Scope}";
-        return new AuthorizeResultDto(authorizationUrl);
-    }
-
-    public async Task<string> CallbackAsync(string providerName, string? code = null, string? state = null)
-    {
-        var httpClient = new HttpClient();
-        var provider = await _customProviderRepository.GetByName(providerName);
-        if (provider is null)
-        {
-            throw new ProviderNotFoundException(providerName);
-        }
-        
-        var tokenParams = new Dictionary<string, string>
-        {
-            { "client_id", provider.ClientId },
-            { "client_secret", provider.ClientSecret },
-            { "code", code ?? "" },
-            { "redirect_uri", provider.RedirectUri }
-        };
-
-        var response = await httpClient.PostAsync(
-            provider.AuthorizationEndpoint,
-            new FormUrlEncodedContent(tokenParams));
-
-        response.EnsureSuccessStatusCode();
-
-        var responseData = await response.Content.ReadFromJsonAsync<JObject>();
-        return responseData?.Value<string>("access_token") ?? throw new InvalidOperationException();
-    }
+    public async Task<IList<CustomProvider>> ListByUserId(Guid userId) => 
+        await _customProviderRepository.SearchEntitiesAsync(provider => provider.UserId == userId);
 
     public async Task CreateCustomProviderAsync(CreateCustomProviderRequest createRequest)
     {
@@ -129,6 +57,7 @@ public class ProviderService : BaseService<CustomProvider>, IProviderService
         var provider = new CustomProvider
         {
             Id = Guid.NewGuid(),
+            UserId = new Guid(_defaultUserAccount.Id),
             Name = providerName,
             ActionCode = documentationDto.ActionCode,
             Documentation = documentationDto.Documentation,

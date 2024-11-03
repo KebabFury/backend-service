@@ -1,12 +1,10 @@
 ﻿using System.Text;
 using KebabFury.Innopolice.WebApi.Application.Dto.Provider;
-using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KebabFury.Innopolice.WebApi.Application.Services;
 
-public static class ProviderMethodHandleService
+public static class ProviderEndpointHandleService
 {
     
     public static async Task<JsonResult> HandleAsync(CreateTaskRequest createRequest)

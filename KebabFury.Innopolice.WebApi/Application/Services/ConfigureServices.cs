@@ -6,11 +6,8 @@ public static class ConfigureServices
 {
     public static void ConfigureAllServices(this IServiceCollection services)
     {
-        services.AddScoped<IBotService, BotService>();
         services.AddScoped<IUserService, UserService>();
-        services.AddScoped<IBotCommandService, BotCommandService>();
-        services.AddScoped<IBotUserService, BotUserService>();
-        services.AddScoped<IAiService, AiService>();
-        services.AddScoped<IProviderService, ProviderService>();
+        services.AddScoped<ICustomProviderService, CustomProviderService>();
+        services.AddScoped<ICustomProviderAuthorizationService, CustomProviderAuthorizationService>();
     }
 }

@@ -12,17 +12,17 @@ namespace KebabFury.Innopolice.WebApi.Controllers;
 public class TodoIstController : ControllerBase
 {
     private readonly ITodoIstAuthorizationService _todoIstAuthorizationService;
-    private readonly IProviderService _providerService;
+    private readonly ICustomProviderAuthorizationService _providerAuthorizationService;
     private readonly ITodoistService _todoistService;
 
     public TodoIstController(
         ITodoIstAuthorizationService todoIstAuthorizationService,
-        IProviderService providerService,
+        ICustomProviderAuthorizationService providerAuthorizationService,
         ITodoistService todoistService
         )
     {
         _todoIstAuthorizationService = todoIstAuthorizationService;
-        _providerService = providerService;
+        _providerAuthorizationService = providerAuthorizationService;
         _todoistService = todoistService;
     }
 
@@ -48,7 +48,7 @@ public class TodoIstController : ControllerBase
 
         var authorizationToken = await _todoIstAuthorizationService.CallbackAsync(code, state, error);
 
-        return await _providerService.SaveAuthorizationDataAndReturnResponse(authorizationToken, "Todoist");
+        return await _providerAuthorizationService.SaveAuthorizationDataAndReturnResponse(authorizationToken, "Todoist");
     }
 
     [HttpPost("create_task")]

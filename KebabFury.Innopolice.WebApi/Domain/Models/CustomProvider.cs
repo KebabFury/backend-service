@@ -1,10 +1,14 @@
 ﻿using KebabFury.Innopolice.WebApi.Domain.Common;
 using KebabFury.Innopolice.WebApi.Domain.Types;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace KebabFury.Innopolice.WebApi.Domain.Models;
 
 public class CustomProvider : BaseModel
 {
+    [BsonGuidRepresentation(GuidRepresentation.Standard)]
+    public required Guid UserId { get; set; }
     public required string Name { get; set; }
     public required string ActionCode { get; set; }
     public required string Documentation { get; set; }

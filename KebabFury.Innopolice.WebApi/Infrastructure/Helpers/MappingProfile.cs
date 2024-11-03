@@ -9,7 +9,5 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         // mappings here
-        CreateMap<BotCommand, BotCommandDto>().ReverseMap();
-        CreateMap<BotCreateRequest, Bot>();
     }
 }

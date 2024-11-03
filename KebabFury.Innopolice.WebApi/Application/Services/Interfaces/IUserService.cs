@@ -7,4 +7,5 @@ public interface IUserService : IBaseService<User>
 {
     public Task<LoginResultDto> LoginAsync(LoginDto loginDto);
     public Task<bool> RegisterAsync(RegisterDto registerDto);
+    public Task<bool> RegisterDefault(Guid id, RegisterDto registerDto);
 }

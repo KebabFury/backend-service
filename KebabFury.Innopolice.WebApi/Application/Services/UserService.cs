@@ -6,6 +6,8 @@ using System.Security.Cryptography;
 using System.Text;
 using KebabFury.Innopolice.WebApi.Application.Dto.User;
 using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
+using KebabFury.Innopolice.WebApi.Application.Settings;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace KebabFury.Innopolice.WebApi.Application.Services;
@@ -14,7 +16,7 @@ public class UserService : BaseService<User>, IUserService
 {
     private readonly UserRepository _userRepository;
     private readonly IConfiguration _configuration;
-    
+
     public UserService(UserRepository userRepository, IConfiguration configuration) : base(userRepository)
     {
         _userRepository = userRepository;
@@ -55,6 +57,26 @@ public class UserService : BaseService<User>, IUserService
 
             var user = new User()
             {
+                Name = registerDto.Name,
+                Email = registerDto.Email,
+                Password = GetPasswordHash(registerDto.Password)
+            };
+
+            await _userRepository.AddEntityAsync(user);
+            return true;
+        }
+
+        public async Task<bool> RegisterDefault(Guid id, RegisterDto registerDto)
+        {
+            var userExistsCheck = await _userRepository.GetByEmailAsync(registerDto.Email);
+            if (userExistsCheck != null)
+            {
+                throw new Exception("User already exists");
+            }
+
+            var user = new User()
+            {
+                Id = id,
                 Name = registerDto.Name,
                 Email = registerDto.Email,
                 Password = GetPasswordHash(registerDto.Password)
