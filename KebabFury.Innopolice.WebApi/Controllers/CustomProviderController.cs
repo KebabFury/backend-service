@@ -6,6 +6,7 @@ using KebabFury.Innopolice.WebApi.Domain.Models;
 using KebabFury.Innopolice.WebApi.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace KebabFury.Innopolice.WebApi.Controllers;
 
@@ -21,6 +22,12 @@ public class CustomProviderController : BaseController<CustomProvider>
     {
         _customProviderService = customProviderService;
         _customProviderAuthorizationService = customProviderAuthorizationService;
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Test([FromBody] string st)
+    {
+        return Ok();
     }
 
     [HttpGet("by-user-id")]

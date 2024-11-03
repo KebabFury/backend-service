@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
+using System.Text.Json.Serialization;
+using AutoMapper;
 using KebabFury.Innopolice.Todoist.Settings;
 using KebabFury.Innopolice.WebApi.Application.Dto.Provider;
 using KebabFury.Innopolice.WebApi.Application.Exceptions;
@@ -7,8 +10,13 @@ using KebabFury.Innopolice.WebApi.Application.Settings;
 using KebabFury.Innopolice.WebApi.Domain.Models;
 using KebabFury.Innopolice.WebApi.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson.IO;
 using Newtonsoft.Json.Linq;
+using HttpMethod = System.Net.Http.HttpMethod;
+using HttpVersion = System.Net.HttpVersion;
+using JsonConvert = Newtonsoft.Json.JsonConvert;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace KebabFury.Innopolice.WebApi.Application.Services;
@@ -37,21 +45,26 @@ public class CustomProviderService : BaseService<CustomProvider>, ICustomProvide
 
     public async Task CreateCustomProviderAsync(CreateCustomProviderRequest createRequest)
     {
+        var providerName = await GetValidNameForProvider(createRequest.Name);
+        var swaggerJson = await File.ReadAllTextAsync("Application/Services/swagger.json");
+        
         var httpClient = new HttpClient();
-        var httpRequest = new HttpRequestMessage(HttpMethod.Post, _parserSettings.ParseEndpointUrl);
-        httpRequest.Content = new StringContent(createRequest.SwaggerJson, Encoding.UTF8, "application/json");
+        var httpRequest = new HttpRequestMessage(HttpMethod.Post,
+            $"{_parserSettings.ParseEndpointUrl}?provider={providerName}");
 
+        var stringContent = new StringContent(swaggerJson, Encoding.UTF8, "text/plain");
+        httpRequest.Content = stringContent;
+        
         using var response = await httpClient.SendAsync(httpRequest);
         response.EnsureSuccessStatusCode();
-
+            
         var responseContent = await response.Content.ReadAsStringAsync();
         var documentationDto = JsonSerializer.Deserialize<DocumentationDto>(responseContent);
-        if (documentationDto?.ActionCode is null || documentationDto?.Documentation is null)
+        if (documentationDto?.ActionCode is null || documentationDto.Documentation is null)
         {
             throw new InvalidOperationException();
         }
 
-        var providerName = await GetValidNameForProvider(createRequest.Name);
         var callbackUrl = $"{_hostSettings.BaseUrl}/{createRequest.Name.ToLower()}/get-token";
         var provider = new CustomProvider
         {
@@ -60,7 +73,7 @@ public class CustomProviderService : BaseService<CustomProvider>, ICustomProvide
             Name = providerName,
             ActionCode = documentationDto.ActionCode,
             Documentation = documentationDto.Documentation,
-            SwaggerJson = createRequest.SwaggerJson,
+            SwaggerJson = swaggerJson,
             ClientId = createRequest.ClientId,
             ClientSecret = createRequest.ClientSecret,
             AuthorizationEndpoint = createRequest.AuthorizationEndpoint,
