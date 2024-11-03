@@ -2,6 +2,7 @@ using KebabFury.Innopolice.Todoist.Services;
 using KebabFury.Innopolice.WebApi.Application.Services;
 using KebabFury.Innopolice.WebApi.Application.Settings;
 using KebabFury.Innopolice.WebApi.Infrastructure;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,7 +47,7 @@ app.UseCors(corsPolicyBuilder =>
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 
