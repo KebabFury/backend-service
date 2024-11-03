@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using AutoMapper;
 using KebabFury.Innopolice.Todoist.Settings;
@@ -40,27 +41,28 @@ public class CustomProviderService : BaseService<CustomProvider>, ICustomProvide
         _customProviderRepository = customProviderRepository;
     }
 
-    public async Task<IList<CustomProvider>> ListByUserId(Guid userId) => 
+    public async Task<IList<CustomProvider>> ListByUserId(Guid userId) =>
         await _customProviderRepository.SearchEntitiesAsync(provider => provider.UserId == userId);
 
     public async Task CreateCustomProviderAsync(CreateCustomProviderRequest createRequest)
     {
         var providerName = await GetValidNameForProvider(createRequest.Name);
-        var swaggerJson = await File.ReadAllTextAsync("Application/Services/swagger.json");
-        
+        var swaggerJson = createRequest.SwaggerJson;
+
         var httpClient = new HttpClient();
         var httpRequest = new HttpRequestMessage(HttpMethod.Post,
-            $"{_parserSettings.ParseEndpointUrl}?provider={providerName}");
+            $"{_parserSettings.ParseEndpointUrl}/body?provider={providerName}");
 
-        var stringContent = new StringContent(swaggerJson, Encoding.UTF8, "text/plain");
-        httpRequest.Content = stringContent;
-        
+        using var jsonDoc = JsonDocument.Parse(createRequest.SwaggerJson);
+        var jsonContent = JsonContent.Create(jsonDoc.RootElement);
+        httpRequest.Content = jsonContent;
+
         using var response = await httpClient.SendAsync(httpRequest);
         response.EnsureSuccessStatusCode();
-            
+
         var responseContent = await response.Content.ReadAsStringAsync();
         var documentationDto = JsonSerializer.Deserialize<DocumentationDto>(responseContent);
-        if (documentationDto?.ActionCode is null || documentationDto.Documentation is null)
+        if (documentationDto?.Actions is null || documentationDto.Documentation is null)
         {
             throw new InvalidOperationException();
         }
@@ -71,7 +73,7 @@ public class CustomProviderService : BaseService<CustomProvider>, ICustomProvide
             Id = Guid.NewGuid(),
             UserId = new Guid(_defaultUserAccount.Id),
             Name = providerName,
-            ActionCode = documentationDto.ActionCode,
+            ActionCode = documentationDto.Actions,
             Documentation = documentationDto.Documentation,
             SwaggerJson = swaggerJson,
             ClientId = createRequest.ClientId,
