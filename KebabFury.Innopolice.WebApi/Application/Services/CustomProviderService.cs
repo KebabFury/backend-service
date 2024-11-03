@@ -51,7 +51,6 @@ public class CustomProviderService : BaseService<CustomProvider>, ICustomProvide
             throw new InvalidOperationException();
         }
 
-
         var providerName = await GetValidNameForProvider(createRequest.Name);
         var callbackUrl = $"{_hostSettings.BaseUrl}/{createRequest.Name.ToLower()}/get-token";
         var provider = new CustomProvider
@@ -61,6 +60,7 @@ public class CustomProviderService : BaseService<CustomProvider>, ICustomProvide
             Name = providerName,
             ActionCode = documentationDto.ActionCode,
             Documentation = documentationDto.Documentation,
+            SwaggerJson = createRequest.SwaggerJson,
             ClientId = createRequest.ClientId,
             ClientSecret = createRequest.ClientSecret,
             AuthorizationEndpoint = createRequest.AuthorizationEndpoint,

@@ -6,6 +6,6 @@ namespace KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
 public interface ICustomProviderAuthorizationService
 {
     Task<AuthorizeResultDto> Authorize(string providerName);
-    Task<string> CallbackAsync(string providerName, string? code = null, string? state = null);
+    Task<string> CallbackAsync(string providerName, string? code = null);
     Task<JsonResult> SaveAuthorizationDataAndReturnResponse(string authorizationData, string systemName);
 }

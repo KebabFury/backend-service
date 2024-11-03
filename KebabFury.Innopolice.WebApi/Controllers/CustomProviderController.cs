@@ -43,7 +43,7 @@ public class CustomProviderController : BaseController<CustomProvider>
     }
 
     [HttpGet("{providerName}/get-token")]
-    public async Task<IActionResult> Callback(string providerName, [FromQuery] string? code = null, [FromQuery] string? state = null, [FromQuery] string? error = null)
+    public async Task<IActionResult> Callback(string providerName, [FromQuery] string? code = null, [FromQuery] string? error = null)
     {
         if (error is not null)
         {
@@ -52,7 +52,7 @@ public class CustomProviderController : BaseController<CustomProvider>
 
         try
         {
-            var result = await _customProviderAuthorizationService.CallbackAsync(providerName, code, state);
+            var result = await _customProviderAuthorizationService.CallbackAsync(providerName, code);
             return await _customProviderAuthorizationService.SaveAuthorizationDataAndReturnResponse(result, providerName);
         }
         catch (HttpRequestException ex)

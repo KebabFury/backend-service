@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace KebabFury.Innopolice.WebApi.Controllers;
 
+[Route("user")]
 public class UserController : BaseController<User>
 {
     private readonly IUserService _userService;

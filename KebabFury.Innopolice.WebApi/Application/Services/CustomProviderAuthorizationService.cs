@@ -38,7 +38,7 @@ public class CustomProviderAuthorizationService : ICustomProviderAuthorizationSe
         return new AuthorizeResultDto(authorizationUrl);
     }
 
-    public async Task<string> CallbackAsync(string providerName, string? code = null, string? state = null)
+    public async Task<string> CallbackAsync(string providerName, string? code = null)
     {
         var httpClient = new HttpClient();
         var provider = await _customProviderRepository.GetByName(providerName);

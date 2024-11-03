@@ -12,6 +12,7 @@ public class CustomProvider : BaseModel
     public required string Name { get; set; }
     public required string ActionCode { get; set; }
     public required string Documentation { get; set; }
+    public required string SwaggerJson { get; set; }
     
     public required string ClientId { get; set; }
     public required string ClientSecret { get; set; }
