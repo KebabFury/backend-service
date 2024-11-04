@@ -3,10 +3,7 @@ using KebabFury.Innopolice.WebApi.Application.Dto.Provider;
 using KebabFury.Innopolice.WebApi.Application.Services;
 using KebabFury.Innopolice.WebApi.Application.Services.Interfaces;
 using KebabFury.Innopolice.WebApi.Domain.Models;
-using KebabFury.Innopolice.WebApi.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 
 namespace KebabFury.Innopolice.WebApi.Controllers;
 
@@ -24,13 +21,12 @@ public class CustomProviderController : BaseController<CustomProvider>
         _customProviderAuthorizationService = customProviderAuthorizationService;
     }
 
-    [HttpGet("by-user-id")]
-    public async Task<IList<CustomProvider>> ListByUserId()
+    [HttpGet("by-user-id/{userId:guid}")]
+    public async Task<IList<CustomProvider>> ListByUserId([FromRoute] Guid userId)
     {
-        var accountId = GetUserId();
-        return await _customProviderService.ListByUserId(accountId);
+        return await _customProviderService.ListByUserId(userId);
     }
-    
+
     [HttpGet("list-docs")]
     public Task<IList<CustomProviderDocumentationDto>> ListAllDocumentations()
     {

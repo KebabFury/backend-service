@@ -48,6 +48,7 @@ public class CustomProviderService : BaseService<CustomProvider>, ICustomProvide
             Id = Guid.NewGuid(),
             UserId = new Guid(_defaultUserAccount.Id),
             Name = providerName,
+            Description = createRequest.Description,
             ProviderDescription = createRequest.ProviderDescription,
             ActionCode = documentationDto.Actions,
             Documentation = documentationDto.Documentation,

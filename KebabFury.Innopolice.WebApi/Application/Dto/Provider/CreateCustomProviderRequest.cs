@@ -3,6 +3,7 @@
 public record CreateCustomProviderRequest
 {
     public required string Name { get; init; }
+    public required string Description { get; init; }
     public required string ProviderDescription { get; init; }
     public required string SwaggerJson { get; init; }
     public required string ClientId { get; init; }
