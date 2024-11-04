@@ -75,10 +75,10 @@ public class CustomProviderController : BaseController<CustomProvider>
     public async Task Create([FromBody] CreateCustomProviderRequest request)
     {
         await _customProviderService.CreateCustomProviderAsync(request);
-    }
+    }   
 
     [HttpPost("handle-provider-endpoint")]
-    public async Task<JsonResult> CreateTask(CreateTaskRequest request)
+    public async Task<JsonResult> CreateTask(HandleEndpointRequest request)
     {
         return await ProviderEndpointHandleService.HandleAsync(request);
     }

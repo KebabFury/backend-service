@@ -7,42 +7,83 @@ namespace KebabFury.Innopolice.WebApi.Application.Services;
 public static class ProviderEndpointHandleService
 {
     
-    public static async Task<JsonResult> HandleAsync(CreateTaskRequest createRequest)
+    public static async Task<JsonResult> HandleAsync(HandleEndpointRequest handleRequest)
     {
         var httpClient = new HttpClient();
 
-        var fullUrl = createRequest.PathParameters.Aggregate(createRequest.Url, (current, pathParam) =>
-            current.Replace($"{{{pathParam.Key}}}", pathParam.Value));
+        var fullUrl = handleRequest.Url;
+        foreach (var param in handleRequest.Path)
+        {
+            fullUrl = fullUrl.Replace($"{{{param.Key}}}", param.Value);
+        }
         
-        var queryString = string.Join("&", createRequest.QueryParameters.Select(q =>
+        var queryString = string.Join("&", handleRequest.Query.Select(q =>
             $"{q.Key}={Uri.EscapeDataString(q.Value)}"));
         fullUrl = string.IsNullOrEmpty(queryString) ? fullUrl : $"{fullUrl}?{queryString}";
 
         var httpRequest = new HttpRequestMessage
         {
-            Method = new HttpMethod(createRequest.Method),
+            Method = new HttpMethod(handleRequest.Method),
             RequestUri = new Uri(fullUrl)
         };
 
-        foreach (var header in createRequest.Headers)
+        foreach (var header in handleRequest.Headers)
         {
             httpRequest.Headers.TryAddWithoutValidation(header.Key, header.Value);
         }
 
         // add body if method is "POST" or "PUT"
-        if (createRequest.Method.Equals("POST", StringComparison.OrdinalIgnoreCase) ||
-            createRequest.Method.Equals("PUT", StringComparison.OrdinalIgnoreCase))
+        if (handleRequest.Method.Equals("POST", StringComparison.OrdinalIgnoreCase) ||
+            handleRequest.Method.Equals("PUT", StringComparison.OrdinalIgnoreCase))
         {
-            if (createRequest.Body is not null)
+            if (handleRequest.Body is not null)
             {
-                httpRequest.Content = new StringContent(createRequest.Body, Encoding.UTF8, "application/json");
+                httpRequest.Content = new StringContent(handleRequest.Body, Encoding.UTF8, "application/json");
             }
         }
 
-        var response = await httpClient.SendAsync(httpRequest);
-        response.EnsureSuccessStatusCode();
-        
-        var responseContent = await response.Content.ReadAsStringAsync();
-        return new JsonResult(new { response = responseContent, statusCode = StatusCodes.Status200OK });
+        if (handleRequest.BodyType != "application/json")
+        {
+            httpRequest.Headers.Add("Content-Type", handleRequest.BodyType);
+        }
+
+        try
+        {
+            var response = await httpClient.SendAsync(httpRequest);
+            response.EnsureSuccessStatusCode();
+            
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return new JsonResult(new { response = responseContent, statusCode = StatusCodes.Status200OK });
+        }
+        catch (HttpRequestException httpEx) when (httpEx.StatusCode.HasValue)
+        {
+            var statusCode = (int)httpEx.StatusCode.Value;
+            var statusMessage = $"HTTP request failed with status code {statusCode}";
+
+            return new JsonResult(new
+            {
+                error = statusMessage,
+                message = httpEx.Message,
+                statusCode = statusCode
+            });
+        }
+        catch (TaskCanceledException timeoutEx)
+        {
+            return new JsonResult(new 
+            { 
+                error = "Request timed out", 
+                message = timeoutEx.Message, 
+                statusCode = StatusCodes.Status408RequestTimeout 
+            });
+        }
+        catch (Exception ex)
+        {
+            return new JsonResult(new 
+            { 
+                error = "An unexpected error occurred", 
+                message = ex.Message, 
+                statusCode = StatusCodes.Status500InternalServerError 
+            });
+        }
     }
 }
